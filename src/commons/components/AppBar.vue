@@ -29,8 +29,7 @@ export default Vue.extend({
     showLoginDialog() {
       this.isDialogOpen = true;
     },
-    closeDialog(e : any) {
-        console.log(e)
+    closeDialog() {
       this.isDialogOpen = false;
     },
   },
