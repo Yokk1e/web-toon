@@ -2,6 +2,7 @@
   <div>
     <v-row>
       <v-text-field
+        v-model="userName"
         label="Username"
         outlined
         dense
@@ -9,6 +10,7 @@
     </v-row>
     <v-row>
       <v-text-field
+        v-model="password"
         label="Passowrd"
         outlined
         dense
@@ -18,12 +20,16 @@
 </template>
 <script lang="ts">
 import Vue from "vue";
+import { proxyModel } from "@/commons/utils/proxyModel";
 import { LoginForm } from "../forms/LoginForm";
 export default Vue.extend({
   props: {
     value: {
       type: Object as () => LoginForm,
     },
+  },
+  computed: {
+    ...proxyModel("userName", "password"),
   },
 });
 </script>
