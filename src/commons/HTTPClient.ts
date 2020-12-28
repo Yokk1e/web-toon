@@ -48,6 +48,11 @@ export class HTTPClient {
     this.setToken(response.data);
   }
 
+  public async clearToken(): Promise<void> {
+    this.accessToken = undefined;
+    this.cacheAccessToken = undefined;
+  }
+
   public setToken(token: OAuthToken) {
     this.accessToken = token.accessToken;
     this.cacheAccessToken = token.accessToken;
