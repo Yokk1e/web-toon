@@ -44,7 +44,7 @@
 <script lang="ts">
 import Vue from "vue";
 import { proxyModel } from "@/commons/utils/proxyModel";
-import { RegisterForm } from "../forms/RegisterForm";
+import { RegisterForm } from "../../users/forms/RegisterForm";
 export default Vue.extend({
   props: {
     value: {
