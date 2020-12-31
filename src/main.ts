@@ -2,6 +2,7 @@ import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
 import vuetify from "./plugins/vuetify";
+import Vuelidate from 'vuelidate'
 import * as components from "@/commons/components";
 
 Object.keys(components).forEach((key) => {
@@ -9,6 +10,7 @@ Object.keys(components).forEach((key) => {
 });
 
 Vue.config.productionTip = false;
+Vue.use(Vuelidate)
 
 new Vue({
   router,
