@@ -49,9 +49,9 @@
 <script lang="ts">
 import Vue from "vue";
 import { LoginForm } from "../forms/LoginForm";
-import { RegisterForm } from "../forms/RegisterForm";
+import { RegisterForm } from "../../users/forms/RegisterForm";
 import LoginEditorForm from "./LoginEditorForm.vue";
-import RegisterEditorForm from "./RegisterEditorForm.vue";
+import RegisterEditorForm from "../../users/components/RegisterEditorForm.vue";
 export default Vue.extend({
   props: {
     dialog: {
@@ -65,13 +65,18 @@ export default Vue.extend({
   data() {
     const diaLogHeader = "Login";
     const isLoginForm = true;
-    const loginForm: LoginForm = {};
+    const loginForm: LoginForm = {
+      email: "",
+      password: "",
+    };
     const registerForm: RegisterForm = {};
 
     return { diaLogHeader, isLoginForm, loginForm, registerForm };
   },
   methods: {
     closeDialog() {
+      this.diaLogHeader = "Login";
+      this.isLoginForm = true;
       this.$emit("closeDialog");
     },
     goToRegisterForm() {

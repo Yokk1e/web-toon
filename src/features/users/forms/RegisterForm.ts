@@ -3,6 +3,11 @@ export interface RegisterForm {
   userName?: string;
   password?: string;
   confirmPassword?: string;
-  gender?: boolean;
+  gender?: GenderType;
   age?: number;
+}
+
+export enum GenderType {
+  MALE = 'male',
+  FEMALE = 'female'
 }
