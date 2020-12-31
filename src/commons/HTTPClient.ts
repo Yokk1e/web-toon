@@ -58,6 +58,41 @@ export class HTTPClient {
     this.cacheAccessToken = token.accessToken;
   }
 
+  public async request<T>(
+    config: AxiosRequestConfig
+  ): Promise<AxiosResponse<T>> {
+    const configWithAuthorization = this.configWithAuthorization(
+      config,
+      this.accessToken
+    );
+
+    const result = await this.client.request(configWithAuthorization);
+
+    return result;
+  }
+
+  private configWithAuthorization(
+    config: AxiosRequestConfig,
+    token: string | undefined
+  ): AxiosRequestConfig {
+    const { headers = {} } = config;
+
+    if (headers.Authorization) {
+      return config;
+    }
+    return {
+      ...config,
+      headers: this.injectAuthorizationToken(headers, token),
+    };
+  }
+
+  private injectAuthorizationToken(
+    headers: Record<string, string>,
+    token: string | undefined
+  ): Record<string, string> {
+    return { ...headers, Authorization: `Bearer ${token}` };
+  }
+
   private get cacheAccessToken(): string | undefined {
     return localStorage.getItem("web_toon::accessToken") || undefined;
   }
