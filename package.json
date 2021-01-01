@@ -11,14 +11,17 @@
   "dependencies": {
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
+    "jwt-decode": "^3.1.2",
     "vue": "^2.6.11",
     "vue-class-component": "^7.2.3",
     "vue-property-decorator": "^8.4.2",
     "vue-router": "^3.2.0",
+    "vuelidate": "^0.7.6",
     "vuetify": "^2.3.22"
   },
   "devDependencies": {
     "@types/jest": "^24.0.19",
+    "@types/vuelidate": "^0.7.13",
     "@typescript-eslint/eslint-plugin": "^2.33.0",
     "@typescript-eslint/parser": "^2.33.0",
     "@vue/cli-plugin-babel": "~4.5.0",
