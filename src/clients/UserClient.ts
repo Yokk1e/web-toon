@@ -1,12 +1,9 @@
 import { HTTPClient } from "@/commons/HTTPClient";
-import { GenderType } from "../features/users/forms/RegisterForm";
 
 export interface UserRegisterRequestParams {
   email: string;
   password: string;
   userName: string;
-  gender: GenderType;
-  age: number;
 }
 
 export class UserClient {
