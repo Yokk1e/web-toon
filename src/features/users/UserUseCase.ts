@@ -7,9 +7,7 @@ export class UserUseCase {
     return this.client.users.postRegister({
       email: form.email!,
       password: form.password!,
-      userName: form.userName!,
-      age: form.age!,
-      gender: form.gender!,
+      userName: form.userName!
     });
   }
 }

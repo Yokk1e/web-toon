@@ -32,8 +32,9 @@
             <div v-else>
               <register-editor-form
                 v-model="registerForm"
+                :validations="this.$v.registerForm"
               ></register-editor-form>
-              <v-btn class="mb-3" block color="success">
+              <v-btn class="mb-3" block color="success" @click="submitRegister">
                 Register
               </v-btn>
               <v-btn block outlined @click="closeDialog">
@@ -48,6 +49,14 @@
 </template>
 <script lang="ts">
 import Vue from "vue";
+import {
+  required,
+  minLength,
+  email,
+  sameAs,
+  numeric,
+} from "vuelidate/lib/validators";
+
 import { LoginForm } from "../forms/LoginForm";
 import { RegisterForm } from "../../users/forms/RegisterForm";
 import LoginEditorForm from "./LoginEditorForm.vue";
@@ -61,6 +70,19 @@ export default Vue.extend({
   components: {
     LoginEditorForm,
     RegisterEditorForm,
+  },
+  validations: {
+    registerForm: {
+      email: { required, email },
+      userName: { required },
+      password: {
+        required,
+        minLength: minLength(6),
+      },
+      confirmPassword: {
+        sameAsPassword: sameAs("password"),
+      },
+    },
   },
   data() {
     const diaLogHeader = "Login";
@@ -82,6 +104,18 @@ export default Vue.extend({
     goToRegisterForm() {
       this.diaLogHeader = "Register";
       this.isLoginForm = false;
+    },
+    async submitRegister() {
+      this.$v.$touch();
+      if (this.$v.$invalid) return;
+      await this.register();
+    },
+    async register() {
+      try {
+        await (this as any).$dep.userUseCase.register(this.registerForm);
+      } catch (error) {
+        console.log(error);
+      }
     },
   },
 });
