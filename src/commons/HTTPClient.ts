@@ -113,6 +113,10 @@ export class HTTPClient {
     return result;
   }
 
+  public hasAccessToken() {
+    return !!this.cacheAccessToken;
+  }
+
   private configWithAuthorization(
     config: AxiosRequestConfig,
     token: string | undefined
