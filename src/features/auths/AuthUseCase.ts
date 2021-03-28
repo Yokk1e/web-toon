@@ -2,16 +2,16 @@ import Vue from "vue";
 import jwtDecode from "jwt-decode";
 
 import { Client } from "../../clients/client";
-import { LoginForm } from "./forms/LoginForm";
+import { AuthLoginForm } from "./forms/AuthLoginForm";
 
 interface Token {
   permissions: string[];
 }
 
-export class LoginUseCase {
+export class AuthUseCase {
   constructor(private client: Client) {}
 
-  public async login(form: LoginForm): Promise<void> {
+  public async login(form: AuthLoginForm): Promise<void> {
     await this.client.auths.login(form);
   }
 
