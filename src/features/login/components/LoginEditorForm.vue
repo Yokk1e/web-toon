@@ -2,7 +2,7 @@
   <div>
     <v-row>
       <v-text-field
-        v-model="userName"
+        v-model="email"
         label="Username"
         outlined
         dense
@@ -29,7 +29,7 @@ export default Vue.extend({
     },
   },
   computed: {
-    ...proxyModel("userName", "password"),
+    ...proxyModel("email", "password"),
   },
 });
 </script>

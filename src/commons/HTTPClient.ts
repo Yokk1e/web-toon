@@ -21,13 +21,13 @@ export interface OAuthToken {
 
 export class HTTPClient {
   private client: AxiosInstance;
-  private baseUrl: string;
-  private tokenUrl: string;
+  private baseURL: string;
+  private tokenURL: string;
   public accessToken: string | undefined;
 
   constructor({ baseURL, tokenURL }: HTTPClientOptions) {
-    this.baseUrl = baseURL;
-    this.tokenUrl = tokenURL;
+    this.baseURL = baseURL;
+    this.tokenURL = tokenURL;
 
     this.accessToken = this.cacheAccessToken;
 
@@ -35,17 +35,59 @@ export class HTTPClient {
       baseURL,
     });
 
-    // this.setupClient();
+    this.setupClient();
+  }
+
+  private setupClient() {
+    this.client.interceptors.response.use(
+      (response) => response,
+      (error) => {
+        if (!this.isAxiosError(error) && !this.isAuthenticationError(error)) {
+          return Promise.reject(error);
+        }
+
+        if (this.isAccessTokenExpired(error)) {
+          window.location.href = window.location.origin + "/auth/login";
+        }
+
+        return Promise.reject(error);
+      }
+    );
+  }
+
+  private isAuthenticationError(error: AxiosError): boolean | undefined {
+    return (
+      error.config &&
+      error.config.url === this.tokenURL &&
+      error.response &&
+      error.response.status === 401
+    );
+  }
+
+  private isAccessTokenExpired(error: AxiosError): boolean | undefined {
+    return (
+      error.config &&
+      error.config.url !== this.tokenURL &&
+      error.response &&
+      error.response.status === 401
+    );
+  }
+
+  private isAxiosError(error: Error): error is AxiosError {
+    const { isAxiosError }: AxiosError = error as AxiosError;
+
+    return isAxiosError;
   }
 
   public async setupToken(data: SetupTokenParams): Promise<void> {
+    console.log(data);
     const { data: response } = await this.client.request({
-      url: this.tokenUrl,
+      url: this.tokenURL,
       method: "POST",
       data,
     });
 
-    this.setToken(response.data);
+    this.setToken(response);
   }
 
   public async clearToken(): Promise<void> {

@@ -23,7 +23,7 @@
                   </v-btn>
                 </v-col>
                 <v-col>
-                  <v-btn block color="success">
+                  <v-btn block color="success" @click="login">
                     Login
                   </v-btn>
                 </v-col>
@@ -113,6 +113,13 @@ export default Vue.extend({
     async register() {
       try {
         await (this as any).$dep.userUseCase.register(this.registerForm);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async login() {
+      try {
+        await (this as any).$dep.loginUseCase.login(this.loginForm);           
       } catch (error) {
         console.log(error);
       }
