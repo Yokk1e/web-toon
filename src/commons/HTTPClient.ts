@@ -80,7 +80,6 @@ export class HTTPClient {
   }
 
   public async setupToken(data: SetupTokenParams): Promise<void> {
-    console.log(data);
     const { data: response } = await this.client.request({
       url: this.tokenURL,
       method: "POST",
