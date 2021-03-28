@@ -4,10 +4,15 @@ import router from "./router";
 import vuetify from "./plugins/vuetify";
 import Vuelidate from 'vuelidate'
 import * as components from "@/commons/components";
+import * as mixins from "@/commons/mixins";
 import { DependencyPlugin } from "./dependencies";
 
 Object.keys(components).forEach((key) => {
   Vue.component(key, (components as any)[key]);
+});
+
+Object.entries(mixins).forEach(([, mixin]) => {
+  Vue.mixin(mixin);
 });
 
 Vue.config.productionTip = false;
