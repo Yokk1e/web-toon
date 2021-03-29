@@ -1,6 +1,6 @@
 <template>
-  <v-app-bar>
-    <v-app-bar-nav-icon></v-app-bar-nav-icon>
+  <v-app-bar app>
+    <v-app-bar-nav-icon @click.stop="$emit('toggle-drawer')"></v-app-bar-nav-icon>
     <v-toolbar-title>Web toon</v-toolbar-title>
     <v-spacer></v-spacer>
 
