@@ -35,7 +35,7 @@ export default Vue.extend({
       },
     ];
 
-    return { menuDatas, drawer: true };
+    return { menuDatas, drawer: false };
   },
   computed: {
     menus() {
