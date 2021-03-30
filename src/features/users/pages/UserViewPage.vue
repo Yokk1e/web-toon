@@ -20,16 +20,9 @@
               <td>{{ user.email }}</td>
               <td>{{ user.userName }}</td>
               <td>
-                <v-btn
-                  class="mx-2"
-                  color="error"
-                  fab
-                  x-small
-                  dark
-                  @click="deleteUserDialog(user)"
-                >
-                  <v-icon>mdi-delete-forever </v-icon>
-                </v-btn>
+                <v-icon color="error" @click="deleteUserDialog(user)"
+                  >mdi-delete-forever
+                </v-icon>
               </td>
             </tr>
           </tbody>
@@ -82,11 +75,11 @@ export default Vue.extend({
         perPage: (this as any).perPage,
       };
       try {
-        const { data, meta } = await (this as any).$dep.userUseCase.getUsers(
+        const { items, meta } = await (this as any).$dep.userUseCase.getUsers(
           form
         );
 
-        this.users = data;
+        this.users = items;
         (this as any).setPaginationMeta(meta);
       } catch (error) {
         console.log(error.response);
