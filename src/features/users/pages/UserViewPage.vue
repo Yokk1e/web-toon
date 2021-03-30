@@ -1,9 +1,7 @@
 <template>
   <div>
     <v-col v-if="hasUserCreatePermission" class="text-right">
-      <v-btn color="primary">
-        <v-icon left>fa-plus-circle</v-icon> เพิ่ม User</v-btn
-      >
+      <v-btn color="primary">เพิ่ม User</v-btn>
     </v-col>
     <v-col>
       <v-simple-table fixed-header>
@@ -65,7 +63,7 @@ export default Vue.extend({
   computed: {
     hasUserCreatePermission() {
       return (this as any).hasPermission(PermissionName.USER_CREATE);
-    }
+    },
   },
   async created() {
     (this as any).getPaginationRouteQuery();
@@ -75,13 +73,13 @@ export default Vue.extend({
   watch: {
     async "$route.query"() {
       await this.getUsers();
-    }
+    },
   },
   methods: {
     async getUsers() {
       const form: PaginationForm = {
         page: (this as any).currentPage,
-        perPage: (this as any).perPage
+        perPage: (this as any).perPage,
       };
       try {
         const { data, meta } = await (this as any).$dep.userUseCase.getUsers(
@@ -111,8 +109,8 @@ export default Vue.extend({
       if (isComfirmed) {
         this.deleteUser(user.id);
       }
-    }
-  }
+    },
+  },
 });
 </script>
 
