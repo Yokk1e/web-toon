@@ -8,6 +8,8 @@ import * as mixins from "@/commons/mixins";
 import VueSweetalert2 from "vue-sweetalert2";
 import { DependencyPlugin } from "./dependencies";
 
+import 'sweetalert2/dist/sweetalert2.min.css';
+
 Object.keys(components).forEach((key) => {
   Vue.component(key, (components as any)[key]);
 });
