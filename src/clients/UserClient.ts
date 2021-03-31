@@ -5,6 +5,7 @@ export interface UserRegisterRequestParams {
   email: string;
   password: string;
   userName: string;
+  role: number;
 }
 
 export interface UserUpdateRequestParams {
@@ -18,7 +19,7 @@ export interface UserDeleteRequestParams {
 
 export class UserClient {
   constructor(private httpClient: HTTPClient) {}
-  public async postRegister(params: UserRegisterRequestParams): Promise<any> {
+  public async postUser(params: UserRegisterRequestParams): Promise<any> {
     const { data } = await this.httpClient.request({
       url: "/users",
       method: "POST",
@@ -31,7 +32,7 @@ export class UserClient {
   public async getUser(id: number): Promise<any> {
     const { data } = await this.httpClient.request({
       url: `/users/${id}`,
-      method: "GET"
+      method: "GET",
     });
 
     return data;
@@ -41,7 +42,7 @@ export class UserClient {
     const { data } = await this.httpClient.request({
       url: "/users",
       method: "GET",
-      params
+      params,
     });
 
     return data;
@@ -52,7 +53,7 @@ export class UserClient {
     const { data } = await this.httpClient.request({
       url: `/users/${id}`,
       method: "PATCH",
-      data: body
+      data: body,
     });
 
     return data;
@@ -61,7 +62,7 @@ export class UserClient {
   public async deleteUsers(params: UserDeleteRequestParams): Promise<any> {
     const { data } = await this.httpClient.request({
       url: `/users/${params.id}`,
-      method: "DELETE"
+      method: "DELETE",
     });
 
     return data;
