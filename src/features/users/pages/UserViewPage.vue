@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-col v-if="hasUserCreatePermission" class="text-right">
-      <v-btn color="primary">เพิ่ม User</v-btn>
+      <v-btn color="primary" @click="openCreateUserDialog">เพิ่ม User</v-btn>
     </v-col>
     <v-col>
       <v-simple-table fixed-header>
@@ -28,6 +28,15 @@
           </tbody>
         </template>
       </v-simple-table>
+      <create-user-dialog
+        v-model="userCreateForm"
+        :isDialogShow="isDialogShow"
+        :validations="this.$v.userCreateForm"
+        :roles="roles"
+        :isLoading="isLoading"
+        @closeDialog="closeDialog"
+        @submitCreate="submitCreateUser"
+      ></create-user-dialog>
       <pagination
         v-model="currentPage"
         :numberOfItemPerPage="perPage"
@@ -40,18 +49,47 @@
 
 <script lang="ts">
 import Vue from "vue";
-
+import { required, minLength, email, sameAs } from "vuelidate/lib/validators";
 import permission, { PermissionName } from "@/commons/mixins/permission";
 import pagination, { PaginationForm } from "@/commons/mixins/pagination";
+import { UserCreateForm } from "../forms/UserCreateForm";
 import dialog from "@/commons/mixins/dialog";
 import { User } from "../models/User";
+import { Role } from "@/features/roles/models/Role";
+import CreateUserDialog from "../components/CreateUserDialog.vue";
 
 export default Vue.extend({
   mixins: [pagination, permission, dialog],
+  components: {
+    CreateUserDialog,
+  },
+  validations: {
+    userCreateForm: {
+      email: { required, email },
+      userName: { required },
+      password: { required, minLength: minLength(6) },
+      confirmPassword: {
+        sameAsPassword: sameAs("password"),
+      },
+      role: {
+        required,
+      },
+    },
+  },
   data() {
     const users: User[] = [];
-    const deleteId = 0;
-    return { users, deleteId };
+    const roles: Role[] = [];
+    const userCreateForm: UserCreateForm = {
+      email: "",
+      userName: "",
+      password: "",
+      confirmPassword: "",
+      role: 0,
+    };
+    const isDialogShow = false;
+    const isLoading = false;
+
+    return { users, userCreateForm, isDialogShow, roles, isLoading };
   },
   computed: {
     hasUserCreatePermission() {
@@ -85,6 +123,16 @@ export default Vue.extend({
         console.log(error.response);
       }
     },
+    async getRoles() {
+      try {
+        const { items } = await (this as any).$dep.roleUseCase.getRoles({
+          perPage: 9999,
+        });
+        this.roles = items;
+      } catch (error) {
+        console.log(error);
+      }
+    },
     async deleteUser(id: number) {
       try {
         await (this as any).$dep.userUseCase.deleteUser(id);
@@ -94,6 +142,10 @@ export default Vue.extend({
         console.log(error);
       }
     },
+    async openCreateUserDialog() {
+      await this.getRoles();
+      this.isDialogShow = true;
+    },
     async deleteUserDialog(user: User) {
       const isComfirmed = await (this as any).alertConfirm(
         "ลบ User",
@@ -102,6 +154,33 @@ export default Vue.extend({
       if (isComfirmed) {
         this.deleteUser(user.id);
       }
+    },
+    async createUser() {
+      try {
+        await (this as any).$dep.userUseCase.create(this.userCreateForm);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    closeDialog() {
+      this.isDialogShow = false;
+      this.isLoading = false;
+      this.userCreateForm = {
+        email: "",
+        userName: "",
+        password: "",
+        confirmPassword: "",
+        role: 0,
+      };
+    },
+    async submitCreateUser() {
+      this.$v.$touch();
+      if (this.$v.$invalid) return;
+      this.isLoading = true;
+      await this.createUser();
+      this.isLoading = false;
+      this.isDialogShow = false;
+      await this.getUsers();
     },
   },
 });
