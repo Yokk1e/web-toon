@@ -44,28 +44,40 @@
         ></v-text-field>
       </v-col>
     </v-row>
+    <v-row>
+      <v-col>
+        <v-overflow-btn
+          v-model="role"
+          class="my-2"
+          label="เลือก Role"
+          :items="roles"
+          item-text="name"
+          item-value="id"
+          :error-messages="roleError"
+        ></v-overflow-btn>
+      </v-col>
+    </v-row>
   </div>
 </template>
 <script lang="ts">
 import Vue from "vue";
 import { proxyModel } from "@/commons/utils/proxyModel";
-import { RegisterForm } from "../../users/forms/RegisterForm";
+import { UserCreateForm } from "../forms/UserCreateForm";
+import { Role } from "@/features/roles/models/Role";
 export default Vue.extend({
   props: {
     value: {
-      type: Object as () => RegisterForm,
+      type: Object as () => UserCreateForm,
     },
     validations: {
       type: Object,
     },
+    roles: {
+      type: Array as () => Role[],
+    },
   },
   computed: {
-    ...proxyModel(
-      "email",
-      "userName",
-      "password",
-      "confirmPassword",
-    ),
+    ...proxyModel("email", "userName", "password", "confirmPassword", "role"),
     emailError() {
       return (this as any).validations.email.$error ? "Email is invalid" : "";
     },
@@ -82,6 +94,11 @@ export default Vue.extend({
     confirmPasswordError() {
       return (this as any).validations.confirmPassword.$error
         ? "Passwords must be identical."
+        : "";
+    },
+    roleError() {
+      return (this as any).validations.role.$error
+        ? "Role is required or invalid."
         : "";
     },
   },
