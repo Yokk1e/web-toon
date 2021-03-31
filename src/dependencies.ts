@@ -6,6 +6,7 @@ import { Client } from "@/clients/client";
 
 import { AuthUseCase } from "@/features/auths/AuthUseCase";
 import { UserUseCase } from "@/features/users/UserUseCase";
+import { RoleUseCase } from "@/features/roles/RoleUseCase";
 
 const { baseURL, tokenURL } = Config;
 
@@ -14,11 +15,13 @@ export const client = new Client(httpClient);
 
 export const authUseCase = new AuthUseCase(client);
 export const userUseCase = new UserUseCase(client);
+export const roleUseCase = new RoleUseCase(client);
 
 export interface Dependency {
   httpClient: HTTPClient;
   authUseCase: AuthUseCase;
   userUseCase: UserUseCase;
+  roleUseCase: RoleUseCase;
 }
 
 export const DependencyPlugin = {
@@ -27,6 +30,7 @@ export const DependencyPlugin = {
       httpClient,
       authUseCase,
       userUseCase,
+      roleUseCase,
     };
 
     Object.defineProperty(Vue.prototype, "$dep", {
