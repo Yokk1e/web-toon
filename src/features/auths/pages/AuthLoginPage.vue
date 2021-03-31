@@ -56,6 +56,7 @@ export default Vue.extend({
       this.isLoading = true;
       try {
         await (this as any).$dep.authUseCase.login(this.authLoginForm);
+        this.$router.push({ name: "UserViewPage" });
       } catch (error) {
         console.log(error);
         this.isLoading = false;
