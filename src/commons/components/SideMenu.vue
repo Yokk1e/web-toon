@@ -33,6 +33,12 @@ export default Vue.extend({
         path: "UserViewPage",
         permission: PermissionName.USER_VIEW,
       },
+      {
+        title: "Roles",
+        icon: "mdi-account-group",
+        path: "RoleViewPage",
+        permission: PermissionName.ROLE_VIEW,
+      },
     ];
 
     return { menuDatas, drawer: false };
