@@ -5,6 +5,7 @@ import AuthLayout from "@/layouts/AuthLayout.vue";
 
 import { AuthRouter } from "@/features/auths/AuthRouter";
 import { UserRouter } from "@/features/users/UserRouter";
+import { RoleRouter } from "@/features/roles/RoleRouter";
 
 Vue.use(VueRouter);
 
@@ -27,7 +28,7 @@ const routes: Array<RouteConfig> = [
   {
     path: "/",
     component: AppLayout,
-    children: [...UserRouter()],
+    children: [...UserRouter(), ...RoleRouter()],
     beforeEnter: (to, from, next) => {
       if (loginGuard(next)) return;
       next();
