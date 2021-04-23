@@ -35,7 +35,7 @@ export default Vue.extend({
       },
       {
         title: "Roles",
-        icon: "mdi-account-group",
+        icon: "mdi-account-lock",
         path: "RoleViewPage",
         permission: PermissionName.ROLE_VIEW,
       },
