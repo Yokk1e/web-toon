@@ -6,10 +6,11 @@
       </v-card-title>
       <v-card-text>
         <v-container>
-          <create-role-form 
-             v-model="roleCreateForm"
+          <editor-role-form
+            v-model="roleCreateForm"
             :validations="validations"
-          ></create-role-form>
+            :permissions="permissions"
+          ></editor-role-form>
         </v-container>
       </v-card-text>
       <v-card-actions>
@@ -31,11 +32,11 @@
 </template>
 <script lang="ts">
 import Vue from "vue";
-import CreateRoleForm from "../components/CreateRoleForm.vue";
+import EditorRoleForm from "./EditorRoleForm.vue";
 import { RoleCreateForm } from "../forms/RoleCreateForm";
 export default Vue.extend({
   components: {
-    CreateRoleForm,
+    EditorRoleForm,
   },
   props: {
     value: {
@@ -46,6 +47,9 @@ export default Vue.extend({
     },
     validations: {
       type: Object,
+    },
+    permissions: {
+      type: Array,
     },
     isLoading: {
       type: Boolean,
