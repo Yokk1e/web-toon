@@ -56,4 +56,8 @@ export default Vue.extend({
   },
 });
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.error-text {
+  color: #ff5252;
+}
+</style>
