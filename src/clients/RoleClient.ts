@@ -2,8 +2,9 @@ import { HTTPClient } from "../commons/HTTPClient";
 
 import { PaginationRequestParams } from "@/commons/mixins/pagination";
 
-export interface RoleRegisterRequestParams {
+export interface RoleCreateRequestParams {
   name: string;
+  permissions: number[];
 }
 
 export interface RoleUpdateRequestParams {
@@ -19,7 +20,7 @@ export interface RoleDeleteRequestParams {
 export class RoleClient {
   constructor(private httpClient: HTTPClient) {}
 
-  public async postRole(params: RoleRegisterRequestParams): Promise<any> {
+  public async postRole(params: RoleCreateRequestParams): Promise<any> {
     const { data } = await this.httpClient.request({
       url: "/roles",
       method: "POST",
