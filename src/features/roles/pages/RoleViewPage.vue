@@ -18,11 +18,11 @@
               <td>{{ role.id }}</td>
               <td>{{ role.name }}</td>
               <td>
-                <v-icon color="error" @click="deleteRoleDialog(role)"
-                  >mdi-delete-forever
-                </v-icon>
                 <v-icon color="warning" @click="updateRoleDialog(role)"
                   >mdi-lead-pencil
+                </v-icon>
+                <v-icon color="error" @click="deleteRoleDialog(role)"
+                  >mdi-delete-forever
                 </v-icon>
               </td>
             </tr>
@@ -122,7 +122,6 @@ export default Vue.extend({
   },
   async created() {
     await this.getRoles();
-    console.log(this.roles);
   },
   methods: {
     async getRoles() {
@@ -162,8 +161,11 @@ export default Vue.extend({
     async createRole() {
       try {
         await (this as any).$dep.roleUseCase.create(this.roleCreateForm);
+        await (this as any).alertSuccess("Success", "สร้าง Role สำเร็จ");
       } catch (error) {
-        console.log(error);
+        process.env.NODE_ENV === "production"
+          ? (this as any).alertError("Error", "ไม่สามารถสร้าง Role นี้")
+          : (this as any).alertError("Error", error);
       }
     },
     async updateRoleDialog(role: Role) {
@@ -177,7 +179,6 @@ export default Vue.extend({
       try {
         const data = await (this as any).$dep.roleUseCase.getRole(id);
 
-     
         this.roleUpdateForm = {
           ...data,
           selectedPermissions: data.permissions.map(
@@ -192,7 +193,6 @@ export default Vue.extend({
     async updateRole() {
       try {
         await (this as any).$dep.roleUseCase.updateRole(this.roleUpdateForm);
-        //!@#$ closeCreatedialog form
         await (this as any).alertSuccess("Success", "แก้ไข Role สำเร็จ");
       } catch (error) {
         if (error.response && error.response.status === 400) {
@@ -221,29 +221,23 @@ export default Vue.extend({
 
     closeCreateDialog() {
       this.isCreateDialogShow = false;
+    },
+
+    closeUpdateDialog() {
+      this.isUpdateDialogShow = false;
+    },
+    async submitCreateRole() {
+      this.$v.$touch();
+      if (this.$v.roleCreateForm.$invalid) return;
+      this.isLoading = true;
+      this.closeCreateDialog();
+      await this.createRole();
       this.isLoading = false;
       this.roleCreateForm = {
         name: "",
         selectedPermissions: [],
       };
       this.$v.$reset();
-    },
-
-    closeUpdateDialog() {
-      this.isUpdateDialogShow = false;
-      this.isLoading = false;
-      this.roleUpdateForm = {
-        name: "",
-        selectedPermissions: [],
-      };
-      this.$v.$reset();
-    },
-    async submitCreateRole() {
-      this.$v.$touch();
-      if (this.$v.roleCreateForm.$invalid) return;
-      this.isLoading = true;
-      await this.createRole();
-      this.closeCreateDialog();
       await this.getRoles();
     },
 
@@ -251,8 +245,14 @@ export default Vue.extend({
       this.$v.$touch();
       if (this.$v.roleUpdateForm.$invalid) return;
       this.isLoading = true;
-      await this.updateRole();
       this.closeUpdateDialog();
+      await this.updateRole();
+      this.isLoading = false;
+      this.roleUpdateForm = {
+        name: "",
+        selectedPermissions: [],
+      };
+      this.$v.$reset();
       await this.getRoles();
     },
   },

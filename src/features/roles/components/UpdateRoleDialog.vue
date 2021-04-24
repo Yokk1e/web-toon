@@ -15,7 +15,7 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn @click="closeDialog">
+        <v-btn @click="closeUpdateDialog">
           Close
         </v-btn>
         <v-btn
@@ -66,8 +66,8 @@ export default Vue.extend({
     },
   },
   methods: {
-    closeDialog() {
-      this.$emit("closeDialog");
+    closeUpdateDialog() {
+      this.$emit("closeUpdateDialog");
     },
     submitUpdate() {
       this.$emit("submitUpdate");
