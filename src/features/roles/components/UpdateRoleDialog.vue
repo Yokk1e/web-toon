@@ -2,12 +2,12 @@
   <v-dialog :value="isDialogShow" max-width="500px" persistent>
     <v-card>
       <v-card-title>
-        <span class="headline">Create Role</span>
+        <span class="headline">Update Role</span>
       </v-card-title>
       <v-card-text>
         <v-container>
           <editor-role-form
-            v-model="roleCreateForm"
+            v-model="roleUpdateForm"
             :validations="validations"
             :permissions="permissions"
           ></editor-role-form>
@@ -22,9 +22,9 @@
           color="success"
           :loading="isLoading"
           :disabled="isLoading"
-          @click="submitCreate"
+          @click="submitUpdate"
         >
-          Save
+          Update
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -33,14 +33,14 @@
 <script lang="ts">
 import Vue from "vue";
 import EditorRoleForm from "./EditorRoleForm.vue";
-import { RoleCreateForm } from "../forms/RoleCreateForm";
+import { RoleUpdateForm } from "../forms/RoleUpdateForm";
 export default Vue.extend({
   components: {
     EditorRoleForm,
   },
   props: {
     value: {
-      type: Object as () => RoleCreateForm,
+      type: Object as () => RoleUpdateForm,
     },
     isDialogShow: {
       type: Boolean,
@@ -56,12 +56,12 @@ export default Vue.extend({
     },
   },
   computed: {
-    roleCreateForm: {
-      get(): RoleCreateForm {
+    roleUpdateForm: {
+      get(): RoleUpdateForm {
         return (this as any).value;
       },
-      set(roleCreateForm: RoleCreateForm) {
-        this.$emit("input", roleCreateForm);
+      set(roleUpdateForm: RoleUpdateForm) {
+        this.$emit("input", roleUpdateForm);
       },
     },
   },
@@ -69,8 +69,8 @@ export default Vue.extend({
     closeDialog() {
       this.$emit("closeDialog");
     },
-    submitCreate() {
-      this.$emit("submitCreate");
+    submitUpdate() {
+      this.$emit("submitUpdate");
     },
   },
 });
