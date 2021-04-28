@@ -6,6 +6,7 @@ import AuthLayout from "@/layouts/AuthLayout.vue";
 import { AuthRouter } from "@/features/auths/AuthRouter";
 import { UserRouter } from "@/features/users/UserRouter";
 import { RoleRouter } from "@/features/roles/RoleRouter";
+import { ContentRouter } from "@/features/contents/ContentRouter";
 
 Vue.use(VueRouter);
 
@@ -28,7 +29,7 @@ const routes: Array<RouteConfig> = [
   {
     path: "/",
     component: AppLayout,
-    children: [...UserRouter(), ...RoleRouter()],
+    children: [...UserRouter(), ...RoleRouter(), ...ContentRouter()],
     beforeEnter: (to, from, next) => {
       if (loginGuard(next)) return;
       next();
@@ -37,7 +38,7 @@ const routes: Array<RouteConfig> = [
 ];
 
 const router = new VueRouter({
-  mode: 'history',
+  mode: "history",
   routes,
 });
 
