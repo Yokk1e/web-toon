@@ -8,7 +8,7 @@ export interface ContentEditorForm {
 export interface EpisodeEditorForm {
   id?: number;
   title: string;
-  name: string;
-  description: string;
-  link: string;
+  name?: string;
+  description?: string;
+  link?: string;
 }
