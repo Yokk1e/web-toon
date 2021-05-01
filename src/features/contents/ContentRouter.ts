@@ -27,7 +27,7 @@ export const ContentRouter: (prefix?: string) => RouteConfig[] = (
   },
   {
     name: "ContentCreatePage",
-    path: prefix,
+    path: `${prefix}/create`,
     component: ContentCreatePage,
     meta: { title: "Content Create" },
     beforeEnter: (to, from, next) => {
