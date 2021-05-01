@@ -2,7 +2,7 @@ export interface ContentUpdateForm {
   id: number;
   name: string;
   description: string;
-  epsiodes: EpisodeUpdateForm[];
+  episodes: EpisodeUpdateForm[];
 }
 
 export interface EpisodeUpdateForm {

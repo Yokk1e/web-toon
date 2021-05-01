@@ -2,7 +2,7 @@ export interface ContentEditorForm {
   id?: number;
   name: string;
   description: string;
-  epsiodes: EpisodeEditorForm[];
+  episodes: EpisodeEditorForm[];
 }
 
 export interface EpisodeEditorForm {

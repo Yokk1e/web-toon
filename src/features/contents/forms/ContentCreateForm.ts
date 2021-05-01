@@ -1,7 +1,7 @@
 export interface ContentCreateForm {
   name: string;
   description: string;
-  epsiodes: EpisodeCreateForm[];
+  episodes: EpisodeCreateForm[];
 }
 
 export interface EpisodeCreateForm {
