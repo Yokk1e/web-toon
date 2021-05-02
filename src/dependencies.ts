@@ -10,9 +10,9 @@ import { RoleUseCase } from "@/features/roles/RoleUseCase";
 import { PermissionUseCase } from "@/features/permission/PermissionUseCase";
 import { ContentUseCase } from "./features/contents/ContentUseCase";
 
-const { baseURL, tokenURL } = Config;
+const { baseURL, tokenURL, assetUploadURL } = Config;
 
-export const httpClient = new HTTPClient({ baseURL, tokenURL });
+export const httpClient = new HTTPClient({ baseURL, tokenURL, assetUploadURL });
 export const client = new Client(httpClient);
 
 export const authUseCase = new AuthUseCase(client);
