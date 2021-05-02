@@ -8,11 +8,6 @@ type EpisodeCreateRequestParams = {
   description: string;
   link: string;
 };
-export interface ContentCreateRequestParams {
-  name: string;
-  description: string;
-  episodes: EpisodeCreateRequestParams[];
-}
 
 export interface ContentUpdateRequestParams {
   id: number;
@@ -24,11 +19,12 @@ export interface ContentUpdateRequestParams {
 export class ContentClient {
   constructor(private httpClient: HTTPClient) {}
 
-  public async postContent(params: ContentCreateRequestParams): Promise<any> {
+  public async postContent(params: FormData): Promise<any> {
     const { data } = await this.httpClient.request({
       url: "/contents",
       method: "POST",
       data: params,
+      headers: { "Content-Type": "multipart/form-data" },
     });
 
     return data;

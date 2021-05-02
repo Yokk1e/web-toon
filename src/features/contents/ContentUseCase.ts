@@ -16,4 +16,8 @@ export class ContentUseCase {
   public async deleteContent(id: number) {
     return this.client.contents.deleteContent(id);
   }
+
+  public async createContent(form : FormData){
+      return this.client.contents.postContent(form)
+  }
 }

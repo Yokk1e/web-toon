@@ -1,5 +1,6 @@
 export interface ContentEditorForm {
   id?: number;
+  file: any;
   name: string;
   description: string;
   episodes: EpisodeEditorForm[];

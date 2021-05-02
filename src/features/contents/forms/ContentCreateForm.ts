@@ -1,6 +1,7 @@
 export interface ContentCreateForm {
   name: string;
   description: string;
+  file : any;
   episodes?: EpisodeCreateForm[];
 }
 

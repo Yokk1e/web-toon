@@ -1,5 +1,13 @@
 <template>
   <div>
+    <v-img max-height="300" max-width="300" :src="url"></v-img>
+    <v-file-input
+      accept="image/png, image/jpeg, image/bmp"
+      prepend-icon="mdi-camera"
+      label="Image"
+      @change="fileChange"
+      :error-messages="fileError"
+    ></v-file-input>
     <v-text-field
       v-model="name"
       label="Title"
@@ -12,31 +20,21 @@
       label="Description"
       outlined
       dense
+      :error-messages="descriptionError"
     ></v-text-field>
-    <v-btn class="mx-2" small fab dark color="primary" @click="addEpisode">
-      <v-icon dark>mdi-plus</v-icon>
-      Add Episode
-    </v-btn>
     <div>
-      <episode-editor-form
-        v-for="(episode, index) in episodes"
-        :key="index"
-        :value="episode"
-        :validation="validation.episodes.$each[index]"
-        @remove="removeEpisode(index)"
-      >
-      </episode-editor-form>
+      <episode-group-card v-model="episodes"></episode-group-card>
     </div>
   </div>
 </template>
 <script lang="ts">
 import Vue from "vue";
 import { ContentEditorForm } from "../forms/ContentEditorForm";
-import EpisodeEditorForm from "./EpisodeEditorForm.vue";
+import EpisodeGroupCard from "./EpisodeGroupCard.vue";
 import { proxyModel } from "@/commons/utils/proxyModel";
 export default Vue.extend({
   components: {
-    EpisodeEditorForm,
+    EpisodeGroupCard,
   },
   props: {
     value: {
@@ -46,30 +44,33 @@ export default Vue.extend({
       type: Object,
     },
   },
+  data() {
+    const url = "";
+    return { url };
+  },
   computed: {
-    ...proxyModel("id", "name", "description", "episodes"),
+    ...proxyModel("id", "name", "description", "episodes", "file"),
     nameError() {
-      this.validations.name.$error ? "Name is require or invalid" : "";
+      return (this as any).validations.name.$error
+        ? "Name is require or invalid"
+        : "";
+    },
+    descriptionError() {
+      return (this as any).validations.description.$error
+        ? "Description is require or invalid"
+        : "";
+    },
+    fileError() {
+      return (this as any).validations.file.$error
+        ? "Image is require or invalid"
+        : "";
     },
   },
   methods: {
-    addEpisode() {
-      (this as any).episodes = [
-        ...(this as any).episodes,
-        {
-          title: "",
-          name: "",
-          description: "",
-          link: "",
-        },
-      ];
-    },
-    removeEpisode(index: number) {
-      (this as any).episodes = (this as any).episodes.filter(
-        (_: any, i: number) => {
-          return index !== i;
-        }
-      );
+    fileChange(e: any) {
+      (this as any).url = URL.createObjectURL(e);
+
+      (this as any).file = e;
     },
   },
 });
