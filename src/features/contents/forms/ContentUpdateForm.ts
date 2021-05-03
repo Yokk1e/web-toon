@@ -1,14 +1,15 @@
 export interface ContentUpdateForm {
-  id: number;
+  id?: number;
   name: string;
+  file?: any;
   description: string;
-  episodes: EpisodeUpdateForm[];
+  episodes?: EpisodeUpdateForm[];
 }
 
 export interface EpisodeUpdateForm {
   id?: number;
   title: string;
-  name: string;
-  description: string;
-  link: string;
+  name?: string;
+  description?: string;
+  link?: string;
 }

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-img max-height="300" max-width="300" :src="url"></v-img>
+    <v-img max-height="300" max-width="300" :src="showImageUrl"></v-img>
     <v-file-input
       accept="image/png, image/jpeg, image/bmp"
       prepend-icon="mdi-camera"
@@ -43,6 +43,12 @@ export default Vue.extend({
     validations: {
       type: Object,
     },
+    imageUrl: {
+      type: String,
+    },
+    state: {
+      type: String,
+    },
   },
   data() {
     const url = "";
@@ -61,15 +67,24 @@ export default Vue.extend({
         : "";
     },
     fileError() {
-      return (this as any).validations.file.$error
-        ? "Image is require or invalid"
-        : "";
+      if (!((this as any).state == "UPDATE")) {
+        return (this as any).validations.file.$error
+          ? "Image is require or invalid"
+          : "";
+      }
+      return "";
+    },
+    showImageUrl() {
+      if ((this as any).imageUrl) {
+        (this as any).url = (this as any).imageUrl;
+      }
+
+      return (this as any).url;
     },
   },
   methods: {
     fileChange(e: any) {
       (this as any).url = URL.createObjectURL(e);
-
       (this as any).file = e;
     },
   },

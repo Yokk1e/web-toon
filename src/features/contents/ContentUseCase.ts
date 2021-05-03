@@ -17,7 +17,19 @@ export class ContentUseCase {
     return this.client.contents.deleteContent(id);
   }
 
-  public async createContent(form : FormData){
-      return this.client.contents.postContent(form)
+  public async createContent(form: FormData) {
+    return this.client.contents.postContent(form);
+  }
+
+  public async getContent(id: number) {
+    return this.client.contents.getContent(id);
+  }
+
+  public async updateContent(id: number, form: FormData) {
+    return this.client.contents.patchContent(id, form);
+  }
+
+  public async getImagePath(fileName: string) {
+    return this.client.contents.getImageByFileName(fileName);
   }
 }
