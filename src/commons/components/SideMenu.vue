@@ -1,5 +1,5 @@
 <template>
-  <v-navigation-drawer v-model="drawer" app >
+  <v-navigation-drawer v-model="drawer" app>
     <v-list>
       <v-list-item
         v-for="menu in menus"
@@ -38,6 +38,12 @@ export default Vue.extend({
         icon: "mdi-account-lock",
         path: "RoleViewPage",
         permission: PermissionName.ROLE_VIEW,
+      },
+      {
+        title: "Contents",
+        icon: "mdi-video",
+        path: "ContentViewPage",
+        permission: PermissionName.CONTENT_VIEW,
       },
     ];
 

@@ -8,16 +8,18 @@ import { AuthUseCase } from "@/features/auths/AuthUseCase";
 import { UserUseCase } from "@/features/users/UserUseCase";
 import { RoleUseCase } from "@/features/roles/RoleUseCase";
 import { PermissionUseCase } from "@/features/permission/PermissionUseCase";
+import { ContentUseCase } from "./features/contents/ContentUseCase";
 
-const { baseURL, tokenURL } = Config;
+const { baseURL, tokenURL, assetUploadURL } = Config;
 
-export const httpClient = new HTTPClient({ baseURL, tokenURL });
+export const httpClient = new HTTPClient({ baseURL, tokenURL, assetUploadURL });
 export const client = new Client(httpClient);
 
 export const authUseCase = new AuthUseCase(client);
 export const userUseCase = new UserUseCase(client);
 export const roleUseCase = new RoleUseCase(client);
 export const permissionUseCase = new PermissionUseCase(client);
+export const contentUseCase = new ContentUseCase(client);
 
 export interface Dependency {
   httpClient: HTTPClient;
@@ -25,6 +27,7 @@ export interface Dependency {
   userUseCase: UserUseCase;
   roleUseCase: RoleUseCase;
   permissionUseCase: PermissionUseCase;
+  contentUseCase: ContentUseCase;
 }
 
 export const DependencyPlugin = {
@@ -35,6 +38,7 @@ export const DependencyPlugin = {
       userUseCase,
       roleUseCase,
       permissionUseCase,
+      contentUseCase,
     };
 
     Object.defineProperty(Vue.prototype, "$dep", {

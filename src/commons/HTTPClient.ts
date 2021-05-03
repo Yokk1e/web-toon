@@ -8,6 +8,7 @@ import axios, {
 export interface HTTPClientOptions {
   baseURL: string;
   tokenURL: string;
+  assetUploadURL : string;
 }
 
 export interface SetupTokenParams {
@@ -22,12 +23,14 @@ export interface OAuthToken {
 export class HTTPClient {
   private client: AxiosInstance;
   private baseURL: string;
+  private assetUploadURL : string;
   private tokenURL: string;
   public accessToken: string | undefined;
 
-  constructor({ baseURL, tokenURL }: HTTPClientOptions) {
+  constructor({ baseURL, tokenURL , assetUploadURL }: HTTPClientOptions) {
     this.baseURL = baseURL;
     this.tokenURL = tokenURL;
+    this.assetUploadURL = assetUploadURL;
 
     this.accessToken = this.cacheAccessToken;
 
@@ -87,6 +90,18 @@ export class HTTPClient {
     });
 
     this.setToken(response);
+  }
+
+  public openUrl(url: string) {
+    window.open(url, "_blank");
+  }
+
+  public openAssetUploadUrl(path: string) {
+    this.openUrl(this.getAssetUploadUrl(path));
+  }
+
+  public getAssetUploadUrl(path: string) {
+    return `${this.assetUploadURL}/${path}`;
   }
 
   public async clearToken(): Promise<void> {
