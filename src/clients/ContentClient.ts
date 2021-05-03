@@ -2,20 +2,6 @@ import { HTTPClient } from "../commons/HTTPClient";
 
 import { PaginationRequestParams } from "@/commons/mixins/pagination";
 
-type EpisodeCreateRequestParams = {
-  title: string;
-  name: string;
-  description: string;
-  link: string;
-};
-
-export interface ContentUpdateRequestParams {
-  id: number;
-  name: string;
-  description: string;
-  episodes: EpisodeCreateRequestParams[];
-}
-
 export class ContentClient {
   constructor(private httpClient: HTTPClient) {}
 
@@ -49,12 +35,12 @@ export class ContentClient {
     return data;
   }
 
-  public async patchContent(params: ContentUpdateRequestParams): Promise<any> {
-    const { id, ...body } = params;
+  public async patchContent(id: number, form: FormData): Promise<any> {
     const { data } = await this.httpClient.request({
       url: `/contents/${id}`,
       method: "PATCH",
-      data: body,
+      data: form,
+      headers: { "Content-Type": "multipart/form-data" },
     });
 
     return data;
@@ -67,5 +53,9 @@ export class ContentClient {
     });
 
     return data;
+  }
+
+  public async getImageByFileName(fileName: string) {
+    return this.httpClient.getAssetUploadUrl(fileName);
   }
 }
