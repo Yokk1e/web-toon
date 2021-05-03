@@ -2,9 +2,9 @@
   <div class="main-content">
     <div class="header-content mb-4">
       <h1>Create Content</h1>
-      <v-btn color="success" :loading="loading" @click="submitContent"
-        >Save</v-btn
-      >
+      <v-btn color="success" :loading="loading" @click="submitContent">
+        Save
+      </v-btn>
     </div>
     <content-editor-form
       v-model="contentCreateForm"
