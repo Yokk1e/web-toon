@@ -1,8 +1,11 @@
 <template>
   <div class="main-content">
+    <v-overlay :value="loading">
+      <v-progress-circular indeterminate size="64"></v-progress-circular>
+    </v-overlay>
     <div class="header-content mb-4">
       <h1>Update Content</h1>
-      <v-btn color="success" :loading="loading" @click="submitContent"
+      <v-btn color="success" :loading="loading" :disabled="loading" @click="submitContent"
         >Save</v-btn
       >
     </div>
@@ -11,6 +14,7 @@
       state="UPDATE"
       :imageUrl="imageUrl"
       :validations="this.$v.contentUpdateForm"
+      @changeUrl="changeUrl"
     >
     </content-editor-form>
   </div>
@@ -47,7 +51,9 @@ export default Vue.extend({
     return { contentUpdateForm, loading, imageUrl };
   },
   async created() {
+    this.loading = true;
     await this.getContent(+this.$route.params.id);
+    this.loading = false;
   },
   methods: {
     async getContent(id: number) {
@@ -103,6 +109,9 @@ export default Vue.extend({
     goToContentViewPage() {
       this.$router.push({ name: "ContentViewPage" });
     },
+    changeUrl(e : any){
+      this.imageUrl = e
+    }
   },
 });
 </script>

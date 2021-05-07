@@ -9,6 +9,8 @@
     <content-editor-form
       v-model="contentCreateForm"
       :validations="this.$v.contentCreateForm"
+      :imageUrl="imageUrl"
+      @changeUrl="changeUrl"
     >
     </content-editor-form>
   </div>
@@ -36,13 +38,14 @@ export default Vue.extend({
   },
   data() {
     const loading = false;
+    const imageUrl = "https://via.placeholder.com/300";
     const contentCreateForm: ContentCreateForm = {
       name: "",
       file: "",
       description: "",
       episodes: [],
     };
-    return { contentCreateForm, loading };
+    return { contentCreateForm, loading, imageUrl };
   },
   methods: {
     async submitContent() {
@@ -80,6 +83,9 @@ export default Vue.extend({
     },
     goToContentViewPage() {
       this.$router.push({ name: "ContentViewPage" });
+    },
+    changeUrl(e: any) {
+      this.imageUrl = e;
     },
   },
 });
