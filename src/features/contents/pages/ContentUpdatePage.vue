@@ -1,5 +1,11 @@
 <template>
   <div class="main-content">
+    <v-overlay :value="loading">
+      <v-progress-circular
+        indeterminate
+        size="64"
+      ></v-progress-circular>
+    </v-overlay>
     <div class="header-content mb-4">
       <h1>Update Content</h1>
       <v-btn color="success" :loading="loading" @click="submitContent"
