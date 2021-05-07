@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-img max-height="300" max-width="300" :src="showImageUrl"></v-img>
+    <v-img max-height="300" max-width="300" :src="imageUrl"></v-img>
     <v-file-input
       accept="image/png, image/jpeg, image/bmp"
       prepend-icon="mdi-camera"
@@ -50,10 +50,6 @@ export default Vue.extend({
       type: String,
     },
   },
-  data() {
-    const url = "";
-    return { url };
-  },
   computed: {
     ...proxyModel("id", "name", "description", "episodes", "file"),
     nameError() {
@@ -74,17 +70,11 @@ export default Vue.extend({
       }
       return "";
     },
-    showImageUrl() {
-      if ((this as any).imageUrl) {
-        (this as any).url = (this as any).imageUrl;
-      }
-
-      return (this as any).url;
-    },
+   
   },
   methods: {
     fileChange(e: any) {
-      (this as any).url = URL.createObjectURL(e);
+      this.$emit('changeUrl', URL.createObjectURL(e));
       (this as any).file = e;
     },
   },
