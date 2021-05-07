@@ -10,6 +10,7 @@
       v-model="contentCreateForm"
       :validations="this.$v.contentCreateForm"
       :imageUrl="imageUrl"
+      @changeUrl="changeUrl"
     >
     </content-editor-form>
   </div>
@@ -82,6 +83,9 @@ export default Vue.extend({
     },
     goToContentViewPage() {
       this.$router.push({ name: "ContentViewPage" });
+    },
+    changeUrl(e: any) {
+      this.imageUrl = e;
     },
   },
 });
